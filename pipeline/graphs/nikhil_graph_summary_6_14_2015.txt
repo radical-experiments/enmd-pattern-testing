@@ -1,0 +1,16 @@
+The graphs called strong_scaling.png, weak_scaling.png, and step_scaling.png show the results of the experiments on the Pipeline Pattern. The measurement was the CU execution time in seconds, which was obtained through the performance profile:
+
+	Strong Scaling: 
+		- 3 steps, 128 instances
+		- Core Count varied in the following sequence: 16, 32, 64, 128
+		- Expectation: Execution time should decrease as core count increases
+
+	Weak Scaling:
+		- 3 steps
+		- Cores/Instances varied from 16/16, 32/32, 64/64, 128/128
+		- Expectation: Execution time would stay approximately the same as the cores/instances were increased
+
+	Step Scaling:
+		- 32 Cores, 64 instances
+		- Steps varied from 1 to 9 by ones
+		- Expectation: Execution time would increase as steps increased
