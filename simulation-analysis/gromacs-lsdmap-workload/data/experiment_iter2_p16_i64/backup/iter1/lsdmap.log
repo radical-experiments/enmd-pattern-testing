@@ -1,0 +1,8 @@
+INFO:root:12:43:33: intializing LSDMap...
+INFO:root:12:43:33: input coordinates loaded
+WARNING:root:12:43:33: .w file does not exist, set weights to 1.0.
+INFO:root:12:43:33: LSDMap initialized
+INFO:root:12:43:35: distance matrix computed
+INFO:root:12:43:35: kernel diagonalized
+INFO:root:12:43:35: Eigenvalues/eigenvectors saved (.eg/.ev files)
+INFO:root:12:43:39: LSDMap computation done
