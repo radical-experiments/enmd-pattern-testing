@@ -12,6 +12,7 @@ export RADICAL_ENMD_VERBOSE=info
 
 * Set the user credentials in stampede.rcfg
 * Set required parameters in gromacslsdmap.wcfg (or leave as default)
+* Set parameters (iters, cores, instances) in runme.sh (or leave as default)
 * Run runme.sh using ```sh runme.sh```
 
 
