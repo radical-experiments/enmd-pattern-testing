@@ -1,5 +1,5 @@
-Log file opened on Mon Aug 17 11:38:38 2015
-Host: i94  pid: 11369  rank ID: 0  number of ranks:  1
+Log file opened on Wed Aug 19 08:55:11 2015
+Host: i84  pid: 27764  rank ID: 0  number of ranks:  1
 GROMACS:    gmx mdrun, VERSION 5.0.4
 
 GROMACS is written by:
@@ -93,13 +93,13 @@ Input Parameters:
    integrator                     = sd
    tinit                          = 0
    dt                             = 0.001
-   nsteps                         = 10000000
+   nsteps                         = 1000000
    init-step                      = 0
    simulation-part                = 1
    comm-mode                      = None
    nstcomm                        = 0
    bd-fric                        = 0
-   ld-seed                        = 1730091763
+   ld-seed                        = 2768773114
    emtol                          = 10
    emstep                         = 0.01
    niter                          = 20
@@ -311,9 +311,9 @@ Total number of graph edges is 42
 Constraining the starting coordinates (step 0)
 
 Constraining the coordinates at t0-dt (step 0)
-Initial temperature: 261.312 K
+Initial temperature: 275.225 K
 
-Started mdrun on rank 0 Mon Aug 17 11:38:38 2015
+Started mdrun on rank 0 Wed Aug 19 08:55:11 2015
            Step           Time         Lambda
               0        0.00000        0.00000
 
@@ -321,23 +321,23 @@ Started mdrun on rank 0 Mon Aug 17 11:38:38 2015
            Bond          Angle    Proper Dih.  Improper Dih.          LJ-14
     9.09674e+00    2.02053e+01    4.65667e+01    1.12854e+00    1.29486e+01
      Coulomb-14        LJ (SR)   Coulomb (SR)      Potential    Kinetic En.
-    1.81568e+02    1.82223e+00   -3.20844e+02   -4.75079e+01    5.99698e+01
+    1.81568e+02    1.82223e+00   -3.20844e+02   -4.75079e+01    6.33343e+01
    Total Energy    Temperature Pressure (bar)
-    1.24619e+01    2.67136e+02    2.80400e-02
+    1.58264e+01    2.82123e+02    2.89730e-02
 
            Step           Time         Lambda
-       10000000    10000.00000        0.00000
+        1000000     1000.00000        0.00000
 
-Writing checkpoint, step 10000000 at Mon Aug 17 11:42:30 2015
+Writing checkpoint, step 1000000 at Wed Aug 19 08:55:34 2015
 
 
    Energies (kJ/mol)
            Bond          Angle    Proper Dih.  Improper Dih.          LJ-14
-    6.45397e+00    4.13175e+01    4.61796e+01    1.15469e+00    1.15822e+01
+    2.98942e+01    2.75296e+01    5.47086e+01    1.59664e+00    1.17498e+01
      Coulomb-14        LJ (SR)   Coulomb (SR)      Potential    Kinetic En.
-    1.98011e+02   -5.50448e+00   -3.09240e+02   -1.00461e+01    5.37243e+01
+    1.83455e+02   -2.45528e+00   -3.18451e+02   -1.19716e+01    6.96420e+01
    Total Energy    Temperature Pressure (bar)
-    4.36782e+01    2.39315e+02    8.34524e-03
+    5.76704e+01    3.10221e+02   -2.69928e-02
 
 
 	M E G A - F L O P S   A C C O U N T I N G
@@ -349,26 +349,26 @@ Writing checkpoint, step 10000000 at Mon Aug 17 11:42:30 2015
 
  Computing:                               M-Number         M-Flops  % Flops
 -----------------------------------------------------------------------------
- Pair Search distance check              49.500198         445.502     0.1
- NxN RF Elec. + LJ [F]                 3279.999672      124639.988    34.8
+ Pair Search distance check               4.950198          44.552     0.1
+ NxN RF Elec. + LJ [F]                  327.999672       12463.988    34.8
  NxN RF Elec. + LJ [V&F]                  0.000656           0.035     0.0
- NxN RF Electrostatics [F]               79.999992        2480.000     0.7
+ NxN RF Electrostatics [F]                7.999992         248.000     0.7
  NxN RF Electrostatics [V&F]              0.000016           0.001     0.0
- 1,4 nonbonded interactions             410.000041       36900.004    10.3
- Shift-X                                445.500066        2673.000     0.7
- Bonds                                   90.000009        5310.001     1.5
- Angles                                 360.000036       60480.006    16.9
- Propers                                390.000039       89310.009    24.9
- Impropers                               40.000004        8320.001     2.3
+ 1,4 nonbonded interactions              41.000041        3690.004    10.3
+ Shift-X                                 44.550066         267.300     0.7
+ Bonds                                    9.000009         531.001     1.5
+ Angles                                  36.000036        6048.006    16.9
+ Propers                                 39.000039        8931.009    24.9
+ Impropers                                4.000004         832.001     2.3
  Virial                                   0.000134           0.002     0.0
- Update                                 220.000022        6820.001     1.9
- Calc-Ekin                               11.000044         297.001     0.1
- Shake                                  475.797611       14273.928     4.0
- Constraint-V                           480.000072        3840.001     1.1
- Shake-Init                             240.000048        2400.000     0.7
+ Update                                  22.000022         682.001     1.9
+ Calc-Ekin                                1.100044          29.701     0.1
+ Shake                                   47.618938        1428.568     4.0
+ Constraint-V                            48.000072         384.001     1.1
+ Shake-Init                              24.000048         240.000     0.7
  Constraint-Vir                           0.000024           0.001     0.0
 -----------------------------------------------------------------------------
- Total                                                  358189.480   100.0
+ Total                                                   35820.170   100.0
 -----------------------------------------------------------------------------
 
 
@@ -379,19 +379,19 @@ On 1 MPI rank
  Computing:          Num   Num      Call    Wall time         Giga-Cycles
                      Ranks Threads  Count      (s)         total sum    %
 -----------------------------------------------------------------------------
- Neighbor search        1    1     250001       2.582          7.575   1.1
- Force                  1    1   10000001     123.248        361.542  53.0
- NB X/F buffer ops.     1    1   19750001       9.803         28.755   4.2
- Write traj.            1    1      10001       0.380          1.114   0.2
- Update                 1    1   20000002      39.181        114.937  16.9
- Constraints            1    1   20000002      23.327         68.428  10.0
- Rest                                          33.888         99.409  14.6
+ Neighbor search        1    1      25001       0.260          0.764   1.2
+ Force                  1    1    1000001      11.950         35.058  53.0
+ NB X/F buffer ops.     1    1    1975001       0.961          2.819   4.3
+ Write traj.            1    1       1001       0.031          0.092   0.1
+ Update                 1    1    2000002       3.905         11.457  17.3
+ Constraints            1    1    2000002       2.233          6.552   9.9
+ Rest                                           3.202          9.393  14.2
 -----------------------------------------------------------------------------
- Total                                        232.408        681.760 100.0
+ Total                                         22.542         66.135 100.0
 -----------------------------------------------------------------------------
 
                Core t (s)   Wall t (s)        (%)
-       Time:      232.029      232.408       99.8
+       Time:       22.492       22.542       99.8
                  (ns/day)    (hour/ns)
-Performance:     3717.595        0.006
-Finished mdrun on rank 0 Mon Aug 17 11:42:30 2015
+Performance:     3832.829        0.006
+Finished mdrun on rank 0 Wed Aug 19 08:55:34 2015
