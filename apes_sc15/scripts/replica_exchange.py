@@ -81,6 +81,7 @@ import pprint
 import optparse
 from os import path
 import radical.pilot
+import datetime
 
 from radical.ensemblemd import Kernel
 from radical.ensemblemd import EnsemblemdError
@@ -159,25 +160,36 @@ class RePattern(ReplicaExchange):
         replica - object representing a given replica and it's associated parameters
         """
 
-        file_name = self.inp_basename + "_" + str(replica.id) + "_" + str(replica.cycle) + ".md"
-
-	'''
-	k = Kernel("misc.mkfile")
-	k.arguments = ["--size=1000", "--filename={0}".format(file_name)]
-	return k
-	'''
-
+        
+        '''
         fo = open(file_name, "wb")
         for i in range(1,1000000):
             fo.write(str(random.randint(i, 500) + i*2.5) + " ");
             if i % 10 == 0:
                 fo.write(str("\n"));
         fo.close()
+        '''
+        pass
 
     # ------------------------------------------------------------------------------
     #
     def prepare_replica_for_md(self, replica):
         """Specifies input and output files and passes them to kernel
+
+        Arguments:
+        replica - object representing a given replica and it's associated parameters
+        """
+        file_name = self.inp_basename + "_" + str(replica.id) + "_" + str(replica.cycle) + ".md"
+
+	k = Kernel("misc.mkfile")
+	k.arguments = ["--size=10000000", "--filename={0}".format(file_name)]
+	return k
+
+        
+    # ------------------------------------------------------------------------------
+    #
+    def prepare_replica_for_exchange(self, replica):
+        """This is not used in this example, but implementation is still required
 
         Arguments:
         replica - object representing a given replica and it's associated parameters
@@ -194,15 +206,7 @@ class RePattern(ReplicaExchange):
         replica.cycle = replica.cycle + 1
         return k
 
-    # ------------------------------------------------------------------------------
-    #
-    def prepare_replica_for_exchange(self, replica):
-        """This is not used in this example, but implementation is still required
-
-        Arguments:
-        replica - object representing a given replica and it's associated parameters
-        """
-        pass
+        #pass
 
     #-------------------------------------------------------------------------------
     #
@@ -251,59 +255,73 @@ if __name__ == "__main__":
         # Create a new static execution context with one resource and a fixed
         # number of cores and runtime.
         
-	scale = [16,32,64,128]
+	scale = [1,16,32,64,128]
+        #scale = [16]
 	for core_count in scale:
-	#core_count=16
-		cluster = SingleClusterEnvironment(
-		    resource="xsede.stampede",
-		    cores=core_count,
-		    walltime=15,
-		    username="tg826231",
-		    project="TG-MCB090174",
-		    database_url='mongodb://ec2-54-221-194-147.compute-1.amazonaws.com:24242',
-		    database_name='myexps',
-		    queue="development"
-		)
+            cluster = SingleClusterEnvironment(
+                resource="xsede.stampede",
+                cores=core_count,
+                walltime=15,
+                username="tg826231",
+                project="TG-MCB090174",
+                database_url='mongodb://ec2-54-221-194-147.compute-1.amazonaws.com:24242',
+                database_name='myexps',
+                queue="development"
+            )
 
-		# Allocate the resources.
-		cluster.allocate()
+            # Allocate the resources.
+            allocate_start = datetime.datetime.now()
+            cluster.allocate()
+            allocate_end = datetime.datetime.now()
 
-		# creating RE pattern object
-		re_pattern = RePattern()
+            # creating RE pattern object
+            pattern_create_start = datetime.datetime.now()
+            re_pattern = RePattern()
+            pattern_create_end = datetime.datetime.now()
 
-		# set number of replicas
-		re_pattern.replicas = core_count
-	 
-		# set number of cycles
-		re_pattern.nr_cycles = 1
+            # set number of replicas
+            re_pattern.replicas = core_count
+     
+            # set number of cycles
+            re_pattern.nr_cycles = 1
 
-		# initializing replica objects
-		replicas = re_pattern.initialize_replicas()
+            # initializing replica objects
+            replicas = re_pattern.initialize_replicas()
 
-		re_pattern.add_replicas( replicas )
+            re_pattern.add_replicas( replicas )
 
-		# run RE simulation
-		cluster.run(re_pattern, force_plugin="replica_exchange.static_pattern_1")
+            # run RE simulation
+            run_start = datetime.datetime.now()
+            cluster.run(re_pattern, force_plugin="replica_exchange.static_pattern_1")
+            run_end = datetime.datetime.now()
 
-		'''
-		print "RE simulation finished!"
-		print "Simulation performed {0} cycles for {1} replicas. In your working directory you should".format(re_pattern.nr_cycles, re_pattern.replicas)
-		print "have {0} md_input_x_y.md files and {0} md_input_x_y.out files where x in {{0,1,2,...{1}}} and y in {{0,1,...{2}}}.".format( (re_pattern.nr_cycles*re_pattern.replicas), (re_pattern.replicas-1), (re_pattern.nr_cycles-1) )
-		print ".md file is replica input file and .out is output file providing number of occurrences of each character."
+            deallocate_start = datetime.datetime.now()
+            cluster.deallocate()
+            deallocate_end = datetime.datetime.now()
 
-		# execution profile printing
-		print "Profiling info: "
-		pp = pprint.PrettyPrinter()
-		pp.pprint(re_pattern.execution_profile_dict)
+            enmd_extra = ((run_end - run_start) + (pattern_create_end - pattern_create_start)).total_seconds()
+            rp_extra = ((allocate_end - allocate_start) + (deallocate_end - deallocate_start)).total_seconds()
+            
+            
+            overhead_dict = re_pattern.execution_profile_dict[2]
+            overhead_dict['enmd_overhead'] += enmd_extra
+            overhead_dict['rp_overhead'] += rp_extra
 
-		df = re_pattern.execution_profile_dataframe
-		df.to_pickle('results.pkl')
-		'''
 
-		import cPickle as pickle
-		with open("repex_data_" + str(core_count) + ".pkl",'w') as outfile:
-			pickle.dump(re_pattern.execution_profile_dict,outfile)
+            '''
+            profile_dict = re_pattern.execution_profile_dict
+            pp = pprint.PrettyPrinter()
+            pp.pprint(profile_dict)
+            df = re_pattern.execution_profile_dataframe
+            df.to_pickle("test_repex.pkl")
+            '''
 
+                    
+            import cPickle as pickle
+            with open("repex_data_" + str(core_count) + ".pkl",'w') as outfile:
+                pickle.dump(re_pattern.execution_profile_dict,outfile)
+
+            cluster.deallocate()
     except EnsemblemdError, er:
 
         print "Ensemble MD Toolkit Error: {0}".format(str(er))

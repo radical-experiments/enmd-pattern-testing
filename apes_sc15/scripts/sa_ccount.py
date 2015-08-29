@@ -71,6 +71,10 @@ __license__      = "MIT"
 __example_name__ = "Simulation-Analysis Example (generic)"
 
 import math
+import pandas
+import pickle
+import pprint
+import datetime
 
 from radical.ensemblemd import Kernel
 from radical.ensemblemd import SimulationAnalysisLoop
@@ -94,49 +98,29 @@ class MSSA(SimulationAnalysisLoop):
            started. In this example we create an initial 1 kB random ASCII file
            that we use as the reference for all analysis steps.
         """
-        k = Kernel(name="misc.mkfile")
-        k.arguments = ["--size=1000000", "--filename=asciifile.dat"]
-        return k
-
+        pass
     def simulation_step(self, iteration, instance):
         """The simulation step generates a 1 kB file containing random ASCII
            characters that is compared against the 'reference' file in the
            subsequent analysis step.
         """
-        k = Kernel(name="misc.ccount")
-        k.arguments = ["--inputfile=asciifile.dat", "--outputfile=cfreqs.dat"]
-	k.link_input_data = "$PRE_LOOP/asciifile.dat"
+        k = Kernel(name="misc.mkfile")
+        k.arguments = ["--size=10000000", "--filename=asciifile.dat"]
         return k
 
     def analysis_step(self, iteration, instance):
-        """In the analysis step, we take the previously generated simulation
-           output and perform a Levenshtein distance calculation between it
-           and the 'reference' file.
 
-           ..note:: The placeholder ``$PRE_LOOP`` used in ``link_input_data`` is
-                    a reference to the working directory of pre_loop.
-                    The placeholder ``$PREV_SIMULATION`` used in ``link_input_data``
-                    is a reference to the working directory of the previous
-                    simulation step.
+        link_input_data = []
+        for i in range(1,self.simlation_instances+1):
+            link_input_data.append("$PREV_SIMULATION_INSTANCE_{instance}/asciifile.dat > asciifile-{instance}.dat".format(instance=i))
 
-                    It is also possible to reference a specific
-                    simulation step using ``$SIMULATION_N`` or all simulations
-                    via ``$SIMULATIONS``. Analogous placeholders exist for
-                    ``ANALYSIS``.
-        """
-        input_filename  = "asciifile.dat"
-	output_filename = "checksum_{0}_{1}.sha1".format(iteration,instance)
-	link_input_data = []
-	for i in range(1,self.simlation_instances+1):
-		link_input_data.append("$PREV_SIMULATION_INSTANCE_{instance}/asciifile.dat > asciifile-{instance}.dat".format(instance=i))
-
-        k = Kernel(name="misc.chksum")
-        k.link_input_data      = link_input_data
-        k.arguments            = ["--inputfile=asciifile.dat",
-                                  "--outputfile={0}".format(output_filename)]
-        k.download_output_data = output_filename
+        k = Kernel(name="misc.ccount")
+        k.arguments = ["--inputfile=asciifile.dat", "--outputfile=cfreqs.dat"]
+        k.link_input_data = link_input_data
+        k.download_output_data = "cfreqs.dat"
+        k.cores = 1
         return k
-
+	
     def post_loop(self):
         # post_loop is executed after the main simulation-analysis loop has
         # finished. In this example we don't do anything here.
@@ -151,36 +135,65 @@ if __name__ == "__main__":
         # Create a new static execution context with one resource and a fixed
         # number of cores and runtime.
 
-	scale = [16,32,64,128]
+	scale = [1,16,32,64,128]
+        #scale = [16]
 
-	#for core_count in scale:
-	core_count = 16
-	it_count = core_count
-	cluster = SingleClusterEnvironment(
-	    resource="xsede.stampede",
-	    cores=core_count,
-	    walltime=30,
-	    username="tg826231",
-	    project="TG-MCB090174",
-	    database_url='mongodb://ec2-54-221-194-147.compute-1.amazonaws.com:24242',
-	    database_name = 'myexps',
-	    queue = "development"
-	)
+	for core_count in scale:
+            #core_count = 1
+            instance_count = core_count
+            cluster = SingleClusterEnvironment(
+                #resource="localhost",
+                resource="xsede.stampede",
+                #resource="futuregrid.india",
+                cores=core_count,
+                walltime=30,
+                username="tg826231",
+                #username="nrs76",
+                #password="L1i2h5k1i5n*",
+                project="TG-MCB090174",
+                database_url='mongodb://ec2-54-221-194-147.compute-1.amazonaws.com:24242',
+                database_name = 'myexps',
+                queue = "development"
+            )
 
-	# Allocate the resources.
-	cluster.allocate()
+            # Allocate the resources.
+            allocate_start = datetime.datetime.now()
+            cluster.allocate()
+            allocate_end = datetime.datetime.now()
 
-	# We set both the the simulation and the analysis step 'instances' to 16.
-	# This means that 16 instances of the simulation step and 16 instances of
-	# the analysis step are executed every iteration.
-	randomsa = MSSA(maxiterations=1, simulation_instances=it_count, analysis_instances=1)
+            # We set both the the simulation and the analysis step 'instances' to 16.
+            # This means that 16 instances of the simulation step and 16 instances of
+            # the analysis step are executed every iteration.
+            pattern_create_start = datetime.datetime.now()
+            randomsa = MSSA(maxiterations=1, simulation_instances=instance_count, analysis_instances=instance_count)
+            pattern_create_end = datetime.datetime.now()
 
-	cluster.run(randomsa)
+            run_start = datetime.datetime.now()
+            cluster.run(randomsa)
+            run_end = datetime.datetime.now()
 
-	df_string = "sa_results_cores_{0}_instances_{1}.pkl".format(core_count,it_count)
+            deallocate_start = datetime.datetime.now()
+            cluster.deallocate()
+            deallocate_end = datetime.datetime.now()
 
-	df = randomsa.execution_profile_dataframe
-	df.to_pickle(df_string)
+            client_enmd_overhead = (pattern_create_end - pattern_create_start).total_seconds() + \
+                                    (run_end - run_start).total_seconds()
+                                    
+
+            randomsa.execution_profile_dict[2]['total_enmd_overhead'] += client_enmd_overhead
+
+
+
+            df_string = "sa_results_cores_{0}_instances_{1}.pkl".format(core_count,instance_count)
+
+            df = randomsa.execution_profile_dataframe
+            pp = pprint.PrettyPrinter()
+            pp.pprint(randomsa.execution_profile_dict)
+            
+            dict_string = "sa_results_cores_{0}_instances_{1}_dict.pkl".format(core_count,instance_count)
+            pickle.dump(randomsa.execution_profile_dict,open(dict_string,"w"))
+            df.to_pickle(df_string)
+
 
     except EnsemblemdError, er:
 

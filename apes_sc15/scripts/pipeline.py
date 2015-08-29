@@ -77,6 +77,9 @@ from radical.ensemblemd import Pipeline
 from radical.ensemblemd import EnsemblemdError
 from radical.ensemblemd import SingleClusterEnvironment
 
+import pickle
+import datetime
+
 
 # ------------------------------------------------------------------------------
 #
@@ -85,8 +88,8 @@ class CharCount(Pipeline):
         radical.ensemblemd.Pipeline, the abstract base class for all pipelines.
     """
 
-    def __init__(self, instances):
-        Pipeline.__init__(self, instances)
+    def __init__(self, instances, steps):
+        Pipeline.__init__(self, instances, steps)
 
     def step_1(self, instance):
         """The first step of the pipeline creates a 1 MB ASCI file.
@@ -108,6 +111,7 @@ class CharCount(Pipeline):
         k.arguments            = ["--inputfile=asciifile-{0}.dat".format(instance), "--outputfile=cfreqs-{0}.dat".format(instance)]
         k.link_input_data      = "$STEP_1/asciifile-{0}.dat".format(instance)
         k.download_output_data = "cfreqs-{0}.dat".format(instance)
+        k.cores = 1
         return k
 
 
@@ -119,10 +123,13 @@ if __name__ == "__main__":
         # Create a new static execution context with one resource and a fixed
         # number of cores and runtime.
 
-	scale = [16,32,64,128]
+	scale = [1,16,32,64,128]
+        #scale = [16]
 	for core_count in scale:
+            #core_count = 16
             cluster = SingleClusterEnvironment(
                 resource="xsede.stampede",
+                #resource = "localhost",
                 cores=core_count,
                 walltime=30,
                 username="tg826231",
@@ -130,11 +137,12 @@ if __name__ == "__main__":
                 database_url='mongodb://ec2-54-221-194-147.compute-1.amazonaws.com:24242',
                 database_name = 'myexps',
                 queue = "development"
-
             )
 
             # Allocate the resources. 
+            allocate_start = datetime.datetime.now()
             cluster.allocate()
+            allocate_end = datetime.datetime.now()
 
             # Set the 'instances' of the pipeline to 16. This means that 16 instances
             # of each pipeline step are executed.
@@ -142,18 +150,34 @@ if __name__ == "__main__":
             # Execution of the 16 pipeline instances can happen concurrently or
             # sequentially, depending on the resources (cores) available in the
             # SingleClusterEnvironment.
-            ccount = CharCount(instances=core_count)
+            pattern_start = datetime.datetime.now()
+            ccount = CharCount(instances=core_count,steps=2)
+            pattern_end = datetime.datetime.now()
 
+
+            run_start = datetime.datetime.now()
             cluster.run(ccount)
-            import cPickle as pickle
-            with open("pipeline_data_" + str(core_count) + ".pkl","w") as outfile:
-                pickle.dump(ccount._execution_profile,outfile)
-    
-            '''
-            import cPickle as pickle
-            with open(df_string,'w') as outfile:
-		pickle.dump(ccount.execution_profile_dict,outfile)
-            '''
+            run_end = datetime.datetime.now()
+       
+
+            deallocate_start = datetime.datetime.now() 
+            cluster.deallocate()
+            deallocate_end = datetime.datetime.now()
+
+            client_enmd_overhead = (pattern_end - pattern_start).total_seconds() + \
+                                    (run_end - run_start).total_seconds()
+
+
+            ccount.execution_profile_dict[2]['total_enmd_overhead'] += client_enmd_overhead
+
+            df = ccount.execution_profile_dataframe 
+            df.to_pickle("pipeline_dataframe_{0}.pkl".format(core_count))
+            dict_string = "pipeline_dict_{0}.pkl".format(core_count)
+            pickle.dump(ccount.execution_profile_dict,open(dict_string,"w"))
+
+            import pprint
+            pp = pprint.PrettyPrinter()
+            pp.pprint(ccount.execution_profile_dict)
 
 
     except EnsemblemdError, er:
