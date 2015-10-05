@@ -1,4 +1,4 @@
-uid, iter, step, Scheduling, StagingInput, Allocating, Executing, PendingAgentOutputStaging, Done
+uid, step, Scheduling, StagingInput, Allocating, Executing, PendingAgentOutputStaging, Done
 
 unit.000674, step_1, 2015-09-29 03:22:52.729000, 2015-09-29 03:22:53.653000, 2015-09-29 03:22:53.900000, 2015-09-29 03:22:53.987000, 2015-09-29 03:22:55.849000, 2015-09-29 03:22:56.894000
 unit.000675, step_1, 2015-09-29 03:22:52.731000, 2015-09-29 03:22:53.644000, 2015-09-29 03:22:53.894000, 2015-09-29 03:22:53.948000, 2015-09-29 03:22:55.844000, 2015-09-29 03:22:56.886000
