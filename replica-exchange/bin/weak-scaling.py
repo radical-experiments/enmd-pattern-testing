@@ -765,8 +765,8 @@ def gen_graph():
     enmd_core_times_err.append(0.023)
 
 
-    print "data_times"
-    print data_times
+    #print "data_times"
+    #print data_times
     
 
     # Five subplots, the axes array is 1-d
@@ -785,6 +785,47 @@ def gen_graph():
         ex_bottom.append(data_times[i])
         md_bottom.append(data_times[i] + exchange_times[i])
 
+
+
+    p0 = axarr[0].bar(ind+0.5*width, rp_overhead_times,   width, yerr=rp_overhead_times_err, color='red', edgecolor = "black")
+    p1 = axarr[0].bar(ind-0.5*width, enmd_overhead_times, width, yerr=enmd_overhead_times_err, color='green', edgecolor = "black")
+    p2 = axarr[0].bar(ind-1.5*width, enmd_core_times,     width, yerr=enmd_core_times_err, color='orange', edgecolor = "black")
+
+    p3 = axarr[2].bar(ind-width, data_times, width, yerr=data_times_err, color='brown', edgecolor = "black")
+    p4 = axarr[2].bar(ind, exchange_times, width, yerr=exchange_times_err, color='yellow', edgecolor = "black")
+
+    p5 = axarr[1].bar(ind-0.5*width, md_times, width, yerr=md_times_err, color='blue', edgecolor = "black")
+    
+    #---------------------------------------------------------------------------
+
+    axarr[0].set_ylabel('Time in seconds')
+    axarr[1].set_ylabel('Time in seconds')
+    axarr[2].set_ylabel('Time in seconds')
+    
+    text ='Weak scaling experiments using T-REMD Alanine Dipeptide with Amber Kernel on SuperMIC. (rp-0.35; 8/8/8)'
+    axarr[0].set_title('\n'.join(wrap(text,70)))
+
+    plt.xticks(ind, ('20/640', '40/640', '80/640', '160/640', '320/640', '640/640') )
+
+    ax = plt.gca()
+    ax.yaxis.grid(True, which='major')
+
+    plt.xlabel('Pilot size/Replicas')
+
+    axarr[1].set_yticks(np.arange(0,300,25))
+    axarr[0].set_yticks(np.arange(0,200,25))
+    axarr[2].set_yticks(np.arange(0,50,5))
+
+    
+    axarr[0].yaxis.grid(True, which='major')
+    axarr[1].yaxis.grid(True, which='major')
+    axarr[2].yaxis.grid(True, which='major')
+
+    axarr[2].legend((p4[0], p3[0]), ( 'Exchange-step times', 'Data-movement times' ))
+    axarr[1].legend( (p5[0], p5[0]), ('MD-step-times', ' ') )
+    axarr[0].legend((p2[0], p1[0], p0[0]), ('ENMD-core-overhead', 'ENMD-pattern-overhead', 'RP-overhead'))
+
+    """
     p0 = axarr[2].bar(ind+0.5*width, rp_overhead_times, width, yerr=rp_overhead_times_err, color='red', edgecolor = "white")
     p1 = axarr[2].bar(ind-1.5*width, enmd_overhead_times, width, yerr=enmd_overhead_times_err, color='darkslategray', edgecolor = "white")
     p2 = axarr[2].bar(ind-0.5*width, enmd_core_times, width, yerr=enmd_core_times_err, color='olive', edgecolor = "white")
@@ -820,8 +861,11 @@ def gen_graph():
     axarr[0].yaxis.grid(True, which='major')
     axarr[1].yaxis.grid(True, which='major')
     axarr[2].yaxis.grid(True, which='major')
+    """
 
-    plt.savefig('../plots/weak-scaling-02.10.2015.pdf')
+
+
+    plt.savefig('../plots/weak-scaling-10.10.2015.png')
 
 #-------------------------------------------------------------------------------
 

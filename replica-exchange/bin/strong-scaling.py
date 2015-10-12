@@ -336,7 +336,8 @@ def gen_graph():
     # 20/640; 
 
     # 3 cycles
-    name1 = 'execution_profile_rp.session.antons-pc.antons.016712.0018'
+    #name1 = 'execution_profile_rp.session.antons-pc.antons.016712.0018'
+    name1 = 'execution_profile_rp.session.antons-pc.antons.016717.0000'
 
     md_times1, \
     exchange_times1, \
@@ -360,7 +361,7 @@ def gen_graph():
     exchange_times4, \
     data_times4, \
     rp_overhead4, \
-    enmd_overhead4 = read_data(name1, 'cycle_3', 20)
+    enmd_overhead4 = read_data(name1, 'cycle_4', 20)
 
     #---------------------------------------------------------------------------
 
@@ -404,7 +405,8 @@ def gen_graph():
     # 40/640
 
     # 4 cycles
-    name1 = 'execution_profile_rp.session.antons-pc.antons.016711.0004'
+    #name1 = 'execution_profile_rp.session.antons-pc.antons.016711.0004'
+    name1 = 'execution_profile_rp.session.antons-pc.antons.016719.0004'
 
     md_times1, \
     exchange_times1, \
@@ -799,7 +801,7 @@ def gen_graph():
 
     ind = np.arange(N)   
     width = 0.2   
-    plt.rc("font", size=12)
+    plt.rc("font", size=10)
 
     data_times_bottom = []
     md_bottom = []
@@ -809,14 +811,18 @@ def gen_graph():
         md_bottom.append(data_times[i] + exchange_times[i])
 
 
-    p0 = axarr[2].bar(ind+0.5*width, rp_overhead_times,   width, yerr=rp_overhead_times_err, color='red', edgecolor = "white")
-    p1 = axarr[2].bar(ind-1.5*width, enmd_overhead_times, width, yerr=enmd_overhead_times_err, color='darkslategray', edgecolor = "white")
-    p2 = axarr[2].bar(ind-0.5*width, enmd_core_times,     width, yerr=enmd_core_times_err, color='olive', edgecolor = "white")
+    #p0 = axarr[0].bar(ind+0.5*width, rp_overhead_times,   width, yerr=rp_overhead_times_err, color='red', edgecolor = "white")
+    #p1 = axarr[0].bar(ind-1.5*width, enmd_overhead_times, width, yerr=enmd_overhead_times_err, color='darkslategray', edgecolor = "white")
+    #p2 = axarr[0].bar(ind-0.5*width, enmd_core_times,     width, yerr=enmd_core_times_err, color='olive', edgecolor = "white")
     
-    p3 = axarr[1].bar(ind-width, data_times, width, yerr=data_times_err, color='black', edgecolor = "white")
-    p4 = axarr[1].bar(ind, exchange_times, width, yerr=exchange_times_err, color='blue', edgecolor = "white")
+    p0 = axarr[0].bar(ind+0.5*width, rp_overhead_times,   width, yerr=rp_overhead_times_err, color='red', edgecolor = "black")
+    p1 = axarr[0].bar(ind-0.5*width, enmd_overhead_times, width, yerr=enmd_overhead_times_err, color='green', edgecolor = "black")
+    p2 = axarr[0].bar(ind-1.5*width, enmd_core_times,     width, yerr=enmd_core_times_err, color='orange', edgecolor = "black")
 
-    p5 = axarr[0].bar(ind-0.5*width, md_times, width, yerr=md_times_err, color='darkgreen', edgecolor = "white")
+    p3 = axarr[2].bar(ind-width, data_times, width, yerr=data_times_err, color='brown', edgecolor = "black")
+    p4 = axarr[2].bar(ind, exchange_times, width, yerr=exchange_times_err, color='yellow', edgecolor = "black")
+
+    p5 = axarr[1].bar(ind-0.5*width, md_times, width, yerr=md_times_err, color='blue', edgecolor = "black")
     
     #---------------------------------------------------------------------------
 
@@ -824,7 +830,7 @@ def gen_graph():
     axarr[1].set_ylabel('Time in seconds')
     axarr[2].set_ylabel('Time in seconds')
     
-    text ='Performance Characterization of T-REMD Alanine Dipeptide with Amber Kernel on SuperMIC. (rp-0.35; 8/8/8)'
+    text ='Strong scaling experiments using T-REMD Alanine Dipeptide with Amber Kernel on SuperMIC. (rp-0.35; 8/8/8)'
     axarr[0].set_title('\n'.join(wrap(text,70)))
 
     plt.xticks(ind, ('20/640', '40/640', '80/640', '160/640', '320/640', '640/640') )
@@ -834,19 +840,20 @@ def gen_graph():
 
     plt.xlabel('Pilot size/Replicas')
 
-    axarr[0].set_yticks(np.arange(0,5000,500))
-    axarr[1].set_yticks(np.arange(0,50,5))
-    axarr[2].set_yticks(np.arange(0,50,5))
+    axarr[1].set_yticks(np.arange(0,5000,500))
+    axarr[0].set_yticks(np.arange(0,100,10))
+    axarr[2].set_yticks(np.arange(0,80,10))
 
     
     axarr[0].yaxis.grid(True, which='major')
     axarr[1].yaxis.grid(True, which='major')
     axarr[2].yaxis.grid(True, which='major')
 
-    axarr[0].legend((p5[0], p4[0], p3[0], p2[0], p1[0], p0[0]), ('MD-step-times', 'Exchange-step times', 'Data-movement times', 'ENMD-core-overhead', 'ENMD-pattern-overhead', 'RP-overhead'))
-    
+    axarr[2].legend((p4[0], p3[0]), ( 'Exchange-step times', 'Data-movement times' ))
+    axarr[1].legend( (p5[0], p5[0]), ('MD-step-times', ' ') )
+    axarr[0].legend((p2[0], p1[0], p0[0]), ('ENMD-core-overhead', 'ENMD-pattern-overhead', 'RP-overhead'))
 
-    plt.savefig('../plots/strong-scaling-04.10.2015.pdf')
+    plt.savefig('../plots/strong-scaling-10.10.2015.png')
 
 
 #-------------------------------------------------------------------------------
