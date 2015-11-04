@@ -1,0 +1,15 @@
+iteration,step,kernel,probe,timestamp
+
+None,pre_loop,None,start_time,2015-10-31 17:04:46.168138
+1,sim,kernel_0,start_time,2015-10-31 17:04:46.190871
+1,sim,kernel_0,wait_time,2015-10-31 17:04:47.148940
+1,sim,kernel_0,res_time,2015-10-31 17:05:48.527343
+1,sim,kernel_0,stop_time,2015-10-31 17:05:48.528578
+1,sim,post,start_time,2015-10-31 17:05:48.528619
+1,sim,post,stop_time,2015-10-31 17:05:48.577359
+1,ana,kernel_0,start_time,2015-10-31 17:05:48.588351
+1,ana,kernel_0,wait_time,2015-10-31 17:05:48.627529
+1,ana,kernel_0,res_time,2015-10-31 17:07:09.870945
+1,ana,kernel_0,stop_time,2015-10-31 17:07:09.875853
+1,ana,post,start_time,2015-10-31 17:07:09.875884
+1,ana,post,stop_time,2015-10-31 17:07:09.876176
