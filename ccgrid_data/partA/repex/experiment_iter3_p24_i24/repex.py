@@ -151,7 +151,7 @@ class RePattern(ReplicaExchange):
         #              str(replica.cycle) + ".out"
 
         k = Kernel(name="misc.mkfile")
-        k.arguments = ["--size=10000000",'--filename=asciifile.dat']
+        k.arguments = ["--size=1000000",'--filename=asciifile.dat']
         # no need to specify shared data here
         # everything in shared_files list will be staged in
         #k.upload_input_data    = [input_name]

@@ -31,7 +31,7 @@ class MSSA(SimulationAnalysisLoop):
         """In the simulation step we
         """
         k = Kernel(name="misc.mkfile")
-        k.arguments = ["--size=1000", "--filename=asciifile.dat"]
+        k.arguments = ["--size=1000000", "--filename=asciifile.dat"]
 	k.download_output_data = ['asciifile.dat > asciifile-{0}.dat'.format(instance)]
         return [k]
 
@@ -41,14 +41,14 @@ class MSSA(SimulationAnalysisLoop):
            instance is picked implicitly, i.e., if this is instance 5, the
            previous simulation with instance 5 is referenced.
         """
-        upload_input_data = []
-        for i in range(1, self.simlation_instances+1):
-            upload_input_data.append("asciifile-{0}.dat".format(i))
+        #upload_input_data = []
+        #for i in range(1, self.simlation_instances+1):
+        #    upload_input_data.append("asciifile-{0}.dat".format(i))
 
         k = Kernel(name="misc.ccount")
         k.arguments            = ["--inputfile=asciifile-*.dat", "--outputfile=cfreqs.dat"]
-        k.upload_input_data      = upload_input_data
-        k.download_output_data = "cfreqs.dat > cfreqs-{iteration}.dat".format(iteration=iteration)
+        k.upload_input_data      = ['asciifile-{0}.dat'.format(instance)]
+        k.download_output_data = ["cfreqs.dat > cfreqs-{0}.dat".format(instance)]
         return [k]
 
 
@@ -63,7 +63,7 @@ if __name__ == "__main__":
         cluster = SingleClusterEnvironment(
                         resource='xsede.comet',
                         cores=48,
-                        walltime=20,
+                        walltime=30,
                         username='vivek91',
 
                         project='unc100',
@@ -79,7 +79,7 @@ if __name__ == "__main__":
 
         # We set both the the simulation and the analysis step 'instances' to 16.
         # If they
-        mssa = MSSA(iterations=1, simulation_instances=48, analysis_instances=1)
+        mssa = MSSA(iterations=1, simulation_instances=48, analysis_instances=48)
 
         cluster.run(mssa)
 
