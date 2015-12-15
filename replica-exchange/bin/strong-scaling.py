@@ -815,14 +815,14 @@ def gen_graph():
     #p1 = axarr[0].bar(ind-1.5*width, enmd_overhead_times, width, yerr=enmd_overhead_times_err, color='darkslategray', edgecolor = "white")
     #p2 = axarr[0].bar(ind-0.5*width, enmd_core_times,     width, yerr=enmd_core_times_err, color='olive', edgecolor = "white")
     
-    p0 = axarr[0].bar(ind+0.5*width, rp_overhead_times,   width, yerr=rp_overhead_times_err, color='red', edgecolor = "black")
-    p1 = axarr[0].bar(ind-0.5*width, enmd_overhead_times, width, yerr=enmd_overhead_times_err, color='green', edgecolor = "black")
-    p2 = axarr[0].bar(ind-1.5*width, enmd_core_times,     width, yerr=enmd_core_times_err, color='orange', edgecolor = "black")
-
     p3 = axarr[2].bar(ind-width, data_times, width, yerr=data_times_err, color='brown', edgecolor = "black")
-    p4 = axarr[2].bar(ind, exchange_times, width, yerr=exchange_times_err, color='yellow', edgecolor = "black")
 
-    p5 = axarr[1].bar(ind-0.5*width, md_times, width, yerr=md_times_err, color='blue', edgecolor = "black")
+    p0 = axarr[1].bar(ind-1.5*width, enmd_core_times, width, yerr=enmd_core_times_err, color='black', edgecolor = "black")
+    p1 = axarr[1].bar(ind-0.5*width, enmd_overhead_times, width, yerr=enmd_overhead_times_err, color='green', edgecolor = "black")
+    p2 = axarr[1].bar(ind+0.5*width, rp_overhead_times, width, yerr=rp_overhead_times_err, color='red', edgecolor = "black")    
+
+    p5 = axarr[0].bar(ind-0.5*width, md_times, width, yerr=md_times_err, color='blue', edgecolor = "black")
+    p4 = axarr[0].bar(ind+0.5*width, exchange_times, width, yerr=exchange_times_err, color='yellow', edgecolor = "black")
     
     #---------------------------------------------------------------------------
 
@@ -830,8 +830,14 @@ def gen_graph():
     axarr[1].set_ylabel('Time in seconds')
     axarr[2].set_ylabel('Time in seconds')
     
-    text ='Strong scaling experiments using T-REMD Alanine Dipeptide with Amber Kernel on SuperMIC. (rp-0.35; 8/8/8)'
-    axarr[0].set_title('\n'.join(wrap(text,70)))
+    text ='Application: Temperature-REMD implemented with Replica Exchange pattern on SuperMIC.'
+    axarr[0].set_title('\n'.join(wrap(text,100)))
+
+    text ='Overhead: Temperature-REMD implemented with Replica Exchange pattern on SuperMIC.'
+    axarr[1].set_title('\n'.join(wrap(text,100)))
+
+    text ='Data Movement: Temperature-REMD implemented with Replica Exchange pattern on SuperMIC.'
+    axarr[2].set_title('\n'.join(wrap(text,100)))
 
     plt.xticks(ind, ('20/640', '40/640', '80/640', '160/640', '320/640', '640/640') )
 
@@ -840,20 +846,28 @@ def gen_graph():
 
     plt.xlabel('Pilot size/Replicas')
 
-    axarr[1].set_yticks(np.arange(0,5000,500))
-    axarr[0].set_yticks(np.arange(0,100,10))
-    axarr[2].set_yticks(np.arange(0,80,10))
+    axarr[0].set_yticks(np.arange(0,5000,500))
+    axarr[1].set_yticks(np.arange(0,150,20))
+    axarr[2].set_yticks(np.arange(0,30,10))
 
     
     axarr[0].yaxis.grid(True, which='major')
+    axarr[0].xaxis.grid(True, which='major')
     axarr[1].yaxis.grid(True, which='major')
+    axarr[1].xaxis.grid(True, which='major')
     axarr[2].yaxis.grid(True, which='major')
+    axarr[2].xaxis.grid(True, which='major')
 
-    axarr[2].legend((p4[0], p3[0]), ( 'Exchange-step times', 'Data-movement times' ))
-    axarr[1].legend( (p5[0], p5[0]), ('MD-step-times', ' ') )
-    axarr[0].legend((p2[0], p1[0], p0[0]), ('ENMD-core-overhead', 'ENMD-pattern-overhead', 'RP-overhead'))
+    axarr[0].legend((p5[0], p4[0]), ('MD-step-times',  'Exchange-step times'), loc="upper right")
+    axarr[1].legend((p0[0], p1[0], p2[0]), ('EnMD Core overhead', 'EnMD Pat overhead','RP overhead'), loc="upper right")
+    axarr[2].legend((p3[0], ), ('Data-movement times',), loc="upper right")
 
-    plt.savefig('../plots/strong-scaling-10.10.2015.png')
+
+    fig = plt.gcf()
+    fig.set_size_inches(12, 6)
+    fig.savefig('plot-strong-scaling-10.10.2015.png', dpi=100)
+
+    #plt.savefig('../plots/strong-scaling-10.10.2015.png')
 
 
 #-------------------------------------------------------------------------------

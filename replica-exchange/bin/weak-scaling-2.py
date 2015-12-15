@@ -928,14 +928,14 @@ def gen_graph():
         ex_bottom.append(data_times[i])
         md_bottom.append(data_times[i] + exchange_times[i])
 
-    p0 = axarr[2].bar(ind+0.5*width, rp_overhead_times, width, yerr=rp_overhead_times_err, color='red', edgecolor = "white")
-    p1 = axarr[2].bar(ind-1.5*width, enmd_overhead_times, width, yerr=enmd_overhead_times_err, color='darkslategray', edgecolor = "white")
-    p2 = axarr[2].bar(ind-0.5*width, enmd_core_times, width, yerr=enmd_core_times_err, color='olive', edgecolor = "white")
-    
-    p3 = axarr[1].bar(ind-width, data_times, width, yerr=data_times_err, color='black', edgecolor = "white")
-    p4 = axarr[1].bar(ind, exchange_times, width, yerr=exchange_times_err, color='blue', edgecolor = "white")
+    p3 = axarr[2].bar(ind-width, data_times, width, yerr=data_times_err, color='brown', edgecolor = "black")
 
-    p5 = axarr[0].bar(ind-0.5*width, md_times, width, yerr=md_times_err, color='darkgreen', edgecolor = "white")
+    p0 = axarr[1].bar(ind-1.5*width, enmd_core_times, width, yerr=enmd_core_times_err, color='black', edgecolor = "black")
+    p1 = axarr[1].bar(ind-0.5*width, enmd_overhead_times, width, yerr=enmd_overhead_times_err, color='green', edgecolor = "black")
+    p2 = axarr[1].bar(ind+0.5*width, rp_overhead_times, width, yerr=rp_overhead_times_err, color='red', edgecolor = "black")    
+
+    p5 = axarr[0].bar(ind-0.5*width, md_times, width, yerr=md_times_err, color='blue', edgecolor = "black")
+    p4 = axarr[0].bar(ind+0.5*width, exchange_times, width, yerr=exchange_times_err, color='yellow', edgecolor = "black")
     
     #---------------------------------------------------------------------------
 
@@ -943,31 +943,47 @@ def gen_graph():
     axarr[1].set_ylabel('Time in seconds')
     axarr[2].set_ylabel('Time in seconds')
     
-    text ='Performance Characterization of T-REMD Alanine Dipeptide with Amber Kernel on SuperMIC. (rp-0.35; 8/8/8)'
-    axarr[0].set_title('\n'.join(wrap(text,70)))
+    text ='Application: Temperature-REMD implemented with Replica Exchange pattern on SuperMIC.'
+    axarr[0].set_title('\n'.join(wrap(text,100)))
+
+    text ='Overhead: Temperature-REMD implemented with Replica Exchange pattern on SuperMIC.'
+    axarr[1].set_title('\n'.join(wrap(text,100)))
+
+    text ='Data Movement: Temperature-REMD implemented with Replica Exchange pattern on SuperMIC.'
+    axarr[2].set_title('\n'.join(wrap(text,100)))
 
     plt.xticks(ind, ('20/20', '40/40', '80/80', '160/160', '320/320', '640/640', '1280/1280', '2560/2560'),  )
-    plt.xticks(rotation=30)
+    #plt.xticks(rotation=30)
 
     ax = plt.gca()
-    ax.yaxis.grid(True, which='major')
 
     plt.xlabel('Pilot size/Replicas')
 
-    axarr[0].set_yticks(np.arange(0,225,25))
-    axarr[1].set_yticks(np.arange(0,100,10))
-    axarr[2].set_yticks(np.arange(0,200,25))
+    axarr[0].set_yticks(np.arange(0,300,25))
+    axarr[1].set_yticks(np.arange(0,500,50))
+    axarr[2].set_yticks(np.arange(0,30,10))
+    
 
-    axarr[0].legend((p5[0], ), ('MD-step-times', ), loc="upper left")
-    axarr[1].legend((p3[0], p4[0]), ('Data-movement times', 'Exchange-step times'), loc="upper left")
-    axarr[2].legend((p0[0], p1[0], p2[0]), ('RP-overhead', 'ENMD-pattern-overhead', 'ENMD-core-overhead'), loc="upper left")
-
+    axarr[0].legend((p5[0], p4[0]), ('MD-step-times',  'Exchange-step times'), loc="upper right")
+    axarr[1].legend((p0[0], p1[0], p2[0]), ('EnMD Core overhead', 'EnMD Pat overhead','RP overhead'), loc="upper right")
+    axarr[2].legend((p3[0], ), ('Data-movement times',), loc="upper right")
+    
 
     axarr[0].yaxis.grid(True, which='major')
+    axarr[0].xaxis.grid(True, which='major')
     axarr[1].yaxis.grid(True, which='major')
+    axarr[1].xaxis.grid(True, which='major')
     axarr[2].yaxis.grid(True, which='major')
+    axarr[2].xaxis.grid(True, which='major')
 
-    plt.savefig('../plots/plot-weak-scaling-02.10.2015-8.png')
+
+    fig = plt.gcf()
+    fig.set_size_inches(12, 6)
+    fig.savefig('plot-weak-scaling-02.10.2015-8.png', dpi=100)
+
+    #plt.savefig('plot-weak-scaling-02.10.2015-8.png')
+
+
 
 #-------------------------------------------------------------------------------
 
