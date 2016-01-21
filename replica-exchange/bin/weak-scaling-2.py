@@ -913,13 +913,13 @@ def gen_graph():
 
     #---------------------------------------------------------------------------
     # Five subplots, the axes array is 1-d
-    f, axarr = plt.subplots(3, sharex=True)
+    f, axarr = plt.subplots(2, sharex=True)
 
     N = 8
 
     ind = np.arange(N)   
     width = 0.3   
-    plt.rc("font", size=10)
+    plt.rc("font", size=16)
 
     data_times_bottom = []
     md_bottom = []
@@ -928,29 +928,29 @@ def gen_graph():
         ex_bottom.append(data_times[i])
         md_bottom.append(data_times[i] + exchange_times[i])
 
-    p3 = axarr[2].bar(ind-width, data_times, width, yerr=data_times_err, color='brown', edgecolor = "black")
+    #p3 = axarr[2].bar(ind-width, data_times, width, yerr=data_times_err, color='brown', edgecolor = "black")
 
-    p0 = axarr[1].bar(ind-1.5*width, enmd_core_times, width, yerr=enmd_core_times_err, color='black', edgecolor = "black")
-    p1 = axarr[1].bar(ind-0.5*width, enmd_overhead_times, width, yerr=enmd_overhead_times_err, color='green', edgecolor = "black")
-    p2 = axarr[1].bar(ind+0.5*width, rp_overhead_times, width, yerr=rp_overhead_times_err, color='red', edgecolor = "black")    
+    p0 = axarr[0].bar(ind+0.5*width, enmd_core_times, width, yerr=enmd_core_times_err, color='green', edgecolor = "black")
+    p1 = axarr[0].bar(ind-0.5*width, enmd_overhead_times, width, yerr=enmd_overhead_times_err, color='red', edgecolor = "black")
+    #p2 = axarr[1].bar(ind+0.5*width, rp_overhead_times, width, yerr=rp_overhead_times_err, color='red', edgecolor = "black")    
 
-    p5 = axarr[0].bar(ind-0.5*width, md_times, width, yerr=md_times_err, color='blue', edgecolor = "black")
-    p4 = axarr[0].bar(ind+0.5*width, exchange_times, width, yerr=exchange_times_err, color='yellow', edgecolor = "black")
+    p5 = axarr[1].bar(ind-0.5*width, md_times, width, yerr=md_times_err, color='blue', edgecolor = "black")
+    p4 = axarr[1].bar(ind+0.5*width, exchange_times, width, yerr=exchange_times_err, color='orange', edgecolor = "black")
     
     #---------------------------------------------------------------------------
 
-    axarr[0].set_ylabel('Time in seconds')
     axarr[1].set_ylabel('Time in seconds')
-    axarr[2].set_ylabel('Time in seconds')
+    axarr[0].set_ylabel('Time in seconds')
+    #axarr[2].set_ylabel('Time in seconds')
     
     text ='Application: Temperature-REMD implemented with Replica Exchange pattern on SuperMIC.'
-    axarr[0].set_title('\n'.join(wrap(text,100)))
-
-    text ='Overhead: Temperature-REMD implemented with Replica Exchange pattern on SuperMIC.'
     axarr[1].set_title('\n'.join(wrap(text,100)))
 
+    text ='Overhead: Temperature-REMD implemented with Replica Exchange pattern on SuperMIC.'
+    axarr[0].set_title('\n'.join(wrap(text,100)))
+
     text ='Data Movement: Temperature-REMD implemented with Replica Exchange pattern on SuperMIC.'
-    axarr[2].set_title('\n'.join(wrap(text,100)))
+    #axarr[2].set_title('\n'.join(wrap(text,100)))
 
     plt.xticks(ind, ('20/20', '40/40', '80/80', '160/160', '320/320', '640/640', '1280/1280', '2560/2560'),  )
     #plt.xticks(rotation=30)
@@ -959,27 +959,27 @@ def gen_graph():
 
     plt.xlabel('Pilot size/Replicas')
 
-    axarr[0].set_yticks(np.arange(0,300,25))
-    axarr[1].set_yticks(np.arange(0,500,50))
-    axarr[2].set_yticks(np.arange(0,30,10))
+    axarr[1].set_yticks(np.arange(0,300,25))
+    axarr[0].set_yticks(np.arange(0,100,10))
+    #axarr[2].set_yticks(np.arange(0,30,10))
     
 
-    axarr[0].legend((p5[0], p4[0]), ('MD-step-times',  'Exchange-step times'), loc="upper right")
-    axarr[1].legend((p0[0], p1[0], p2[0]), ('EnMD Core overhead', 'EnMD Pat overhead','RP overhead'), loc="upper right")
-    axarr[2].legend((p3[0], ), ('Data-movement times',), loc="upper right")
+    axarr[1].legend((p5[0], p4[0]), ('MD-step-times',  'Exchange-step times'), loc="upper left")
+    axarr[0].legend((p0[0], p1[0]), ('EnMD Core overhead', 'EnMD Pat overhead'), loc="upper left")
+    #axarr[2].legend((p3[0], ), ('Data-movement times',), loc="upper left")
     
 
-    axarr[0].yaxis.grid(True, which='major')
-    axarr[0].xaxis.grid(True, which='major')
     axarr[1].yaxis.grid(True, which='major')
     axarr[1].xaxis.grid(True, which='major')
-    axarr[2].yaxis.grid(True, which='major')
-    axarr[2].xaxis.grid(True, which='major')
+    axarr[0].yaxis.grid(True, which='major')
+    axarr[0].xaxis.grid(True, which='major')
+    #axarr[2].yaxis.grid(True, which='major')
+    #axarr[2].xaxis.grid(True, which='major')
 
 
     fig = plt.gcf()
-    fig.set_size_inches(12, 6)
-    fig.savefig('plot-weak-scaling-02.10.2015-8.png', dpi=100)
+    fig.set_size_inches(16, 12.5)
+    fig.savefig('plot-weak-scaling_without_data_without_ov.png', dpi=100)
 
     #plt.savefig('plot-weak-scaling-02.10.2015-8.png')
 
