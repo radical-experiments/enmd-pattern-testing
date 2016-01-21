@@ -1,0 +1,26 @@
+iteration,step,kernel,probe,timestamp
+
+None,pre_loop,None,start_time,2016-01-20 11:15:02.888508
+None,pre_loop,None,wait_time,2016-01-20 11:15:02.896706
+None,pre_loop,None,res_time,2016-01-20 11:15:26.987844
+None,pre_loop,None,stop_time,2016-01-20 11:15:26.988782
+1,sim,kernel_0,start_time,2016-01-20 11:15:26.989508
+1,sim,kernel_0,wait_time,2016-01-20 11:15:34.204391
+1,sim,kernel_0,res_time,2016-01-20 11:23:31.134417
+1,sim,kernel_0,stop_time,2016-01-20 11:23:31.139807
+1,sim,post,start_time,2016-01-20 11:23:31.139840
+1,sim,post,stop_time,2016-01-20 11:23:31.235789
+1,ana,kernel_0,start_time,2016-01-20 11:23:31.456032
+1,ana,kernel_0,wait_time,2016-01-20 11:23:31.742484
+1,ana,kernel_0,res_time,2016-01-20 11:23:59.855900
+1,ana,kernel_0,stop_time,2016-01-20 11:23:59.856643
+1,ana,kernel_1,start_time,2016-01-20 11:23:59.856674
+1,ana,kernel_1,wait_time,2016-01-20 11:24:00.087756
+1,ana,kernel_1,res_time,2016-01-20 11:24:24.154158
+1,ana,kernel_1,stop_time,2016-01-20 11:24:24.154738
+1,ana,kernel_2,start_time,2016-01-20 11:24:24.154767
+1,ana,kernel_2,wait_time,2016-01-20 11:24:24.381920
+1,ana,kernel_2,res_time,2016-01-20 11:24:56.091662
+1,ana,kernel_2,stop_time,2016-01-20 11:24:56.092244
+1,ana,post,start_time,2016-01-20 11:24:56.092274
+1,ana,post,stop_time,2016-01-20 11:24:56.092540
