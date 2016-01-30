@@ -1,0 +1,22 @@
+#-----------------------------
+
+radical pilot version: 0.35.1
+
+repex version: 0.2-feature-enmd-1-33e7661-
+
+repex brach: feature/enmd-1
+
+repex example directory: amber_pattern_b
+
+#-----------------------------
+
+target machine: SuperMIC
+
+number of cycles: 4
+
+cores/replicas: 
+
+    weak scaling: '20/20', '40/40', '80/80', '160/160', '320/320', '640/640', '1280/1280', '2560/2560'
+
+    strong scaling: '20/2560', '40/2560', '80/2560', '160/2560', '320/2560', '640/2560', '1280/2560', '2560/2560'
+

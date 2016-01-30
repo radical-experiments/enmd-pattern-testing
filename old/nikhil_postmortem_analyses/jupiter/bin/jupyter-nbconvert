@@ -1,0 +1,6 @@
+#!/home/vivek/Research/repos/enmd-pattern-testing/nikhil_postmortem_analyses/jupiter/bin/python
+
+from nbconvert.nbconvertapp import main
+
+if __name__ == '__main__':
+    main()

@@ -1,0 +1,26 @@
+iteration,step,kernel,probe,timestamp
+
+None,pre_loop,None,start_time,2015-10-07 14:03:08.663859
+None,pre_loop,None,wait_time,2015-10-07 14:03:08.695644
+None,pre_loop,None,res_time,2015-10-07 14:03:22.722646
+None,pre_loop,None,stop_time,2015-10-07 14:03:22.723543
+1,sim,kernel_0,start_time,2015-10-07 14:03:22.724658
+1,sim,kernel_0,wait_time,2015-10-07 14:03:23.290146
+1,sim,kernel_0,res_time,2015-10-07 14:08:30.168090
+1,sim,kernel_0,stop_time,2015-10-07 14:08:30.169208
+1,sim,post,start_time,2015-10-07 14:08:30.169242
+1,sim,post,stop_time,2015-10-07 14:08:30.170875
+1,ana,kernel_0,start_time,2015-10-07 14:08:30.184427
+1,ana,kernel_0,wait_time,2015-10-07 14:08:30.260965
+1,ana,kernel_0,res_time,2015-10-07 14:08:35.527393
+1,ana,kernel_0,stop_time,2015-10-07 14:08:35.528113
+1,ana,kernel_1,start_time,2015-10-07 14:08:35.528138
+1,ana,kernel_1,wait_time,2015-10-07 14:08:35.582674
+1,ana,kernel_1,res_time,2015-10-07 14:08:48.887179
+1,ana,kernel_1,stop_time,2015-10-07 14:08:48.887502
+1,ana,kernel_2,start_time,2015-10-07 14:08:48.887523
+1,ana,kernel_2,wait_time,2015-10-07 14:08:48.938436
+1,ana,kernel_2,res_time,2015-10-07 14:08:55.419776
+1,ana,kernel_2,stop_time,2015-10-07 14:08:55.420803
+1,ana,post,start_time,2015-10-07 14:08:55.420830
+1,ana,post,stop_time,2015-10-07 14:08:55.421107
