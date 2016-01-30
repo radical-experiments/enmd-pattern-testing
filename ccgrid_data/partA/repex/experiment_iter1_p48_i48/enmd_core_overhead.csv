@@ -1,6 +1,0 @@
-step,probe,timestamp
-
-allocate,start_time,2015-11-06 13:25:11.895271
-allocate,stop_time,2015-11-06 13:25:13.439826
-deallocate,start_time,2015-11-06 13:28:26.255017
-deallocate,stop_time,2015-11-06 13:28:31.990851

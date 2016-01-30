@@ -1,9 +1,0 @@
-REMOTE_HOST = 'xsede.stampede'  # Label/Name of the Remote Machine
-UNAME       = 'vivek91'                  # Username on the Remote Machine
-ALLOCATION  = 'TG-MCB090174'              # Allocation to be charged
-WALLTIME    = 575                          # Walltime to be requested for the pilot
-PILOTSIZE   = 16                          # Number of cores to be reserved
-WORKDIR     = None                        # Working directory on the remote machine
-QUEUE       = 'normal'                    # Name of the queue in the remote machine
-
-DBURL       = 'mongodb://ec2-54-221-194-147.compute-1.amazonaws.com:24242/vivek'          #MongoDB link to be used for coordination purposes
