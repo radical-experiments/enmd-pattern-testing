@@ -231,8 +231,8 @@ if __name__ == "__main__":
                 walltime=15,
                 username="tg826231",
                 project="TG-MCB090174",
-                database_url='mongodb://ec2-54-221-194-147.compute-1.amazonaws.com:24242/myexps',
-                #database_name='myexps',
+                database_url=os.environ.get('RADICAL_PILOT_DBURL'),
+                database_name='enmddb',
                 queue="development"
             )
             

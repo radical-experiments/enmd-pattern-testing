@@ -93,14 +93,14 @@ class CharCount(Pipeline):
     def __init__(self, instances, steps):
         Pipeline.__init__(self, instances, steps)
 
-    def step_1(self, instance):
+    def stage_1(self, instance):
         """The first step of the pipeline creates a 1 MB ASCI file.
         """
         k = Kernel(name="misc.mkfile")
         k.arguments = ["--size=1000000", "--filename=asciifile-{0}.dat".format(instance)]
         return k
 
-    def step_2(self, instance):
+    def stage_2(self, instance):
         """The second step of the pipeline does a character frequency analysis
            on the file generated the first step. The result is transferred back
            to the host running this script.
@@ -134,21 +134,21 @@ if __name__ == "__main__":
         # number of cores and runtime.
 
         pp = pprint.PrettyPrinter()
-	#scale = [1,16,32,64,128]
+    	#scale = [1,16,32,64,128]
         '''
         scale = [1,16,32,64,128]
         num_of_iterations = 5 
-	pairings = []
+    	pairings = []
 
         for core in scale:
             for i in range(0,num_of_iterations):
                 pairings.append((core,i))
 
-	pp.pprint(pairings)
+    	pp.pprint(pairings)
 
-	shuffle(pairings)
+    	shuffle(pairings)
 
-	for item in pairings:
+    	for item in pairings:
             core_count = item[0]
             iteration = item[1] + 1
         '''
@@ -156,13 +156,15 @@ if __name__ == "__main__":
         iteration = 42
         cluster = SingleClusterEnvironment(
             resource="xsede.stampede",
-            #resource = "localhost",
+            # resource="xsede.comet",
+            # resource = "localhost",
             cores=core_count,
             walltime=30,
             username="tg826231",
+            # username="nrs76",
             project="TG-MCB090174",
-            database_url='mongodb://ec2-54-221-194-147.compute-1.amazonaws.com:24242',
-            database_name = 'myexps',
+            database_url=os.environ.get('RADICAL_PILOT_DBURL'),
+            database_name = 'enmddb',
             queue = "development"
         )
 
@@ -172,21 +174,21 @@ if __name__ == "__main__":
         cluster.run(ccount)
         cluster.deallocate()
 
-        core_index_string = "enmd_core_overhead_{0}_{1}.csv".format(core_count,iteration)
-        pattern_index_string = "enmd_pat_overhead_{0}_{1}.csv".format(core_count,iteration)
-        new_profile = "profile_{0}_{1}.csv".format(core_count,iteration)
+        # new_core_string = "enmd_core_overhead_{0}_{1}.csv".format(core_count,iteration)
+        # new_core_string = "enmd_pat_overhead_{0}_{1}.csv".format(core_count,iteration)
+        # new_profile = "profile_{0}_{1}.csv".format(core_count,iteration)
 
-        original_core = "enmd_core_overhead.csv"
-        original_pattern = "enmd_pat_overhead.csv"
-        original_profile = find_profile(os.listdir('.'))
-
-
-        os.system("mv {0} {1}".format(original_core,core_index_string))
-        os.system("mv {0} {1}".format(original_pattern,pattern_index_string))
-        os.system("mv {0} {1}".format(original_profile, new_profile))
+        # original_core = "enmd_core_overhead.csv"
+        # original_pattern = "enmd_pat_overhead.csv"
+        # original_profile = find_profile(os.listdir('.'))
 
 
-        cleanup()
+        # os.system("mv {0} {1}".format(original_core,new_core_string))
+        # os.system("mv {0} {1}".format(original_pattern,new_core_string))
+        # os.system("mv {0} {1}".format(original_profile, new_profile))
+
+
+        # cleanup()
 
             
 
