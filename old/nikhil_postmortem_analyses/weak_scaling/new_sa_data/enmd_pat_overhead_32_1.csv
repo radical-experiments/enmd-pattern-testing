@@ -1,0 +1,15 @@
+iteration,step,kernel,probe,timestamp
+
+None,pre_loop,None,start_time,2016-02-24 22:12:35.797575
+1,sim,kernel_0,start_time,2016-02-24 22:12:35.798243
+1,sim,kernel_0,wait_time,2016-02-24 22:12:35.940386
+1,sim,kernel_0,res_time,2016-02-24 22:13:22.432568
+1,sim,kernel_0,stop_time,2016-02-24 22:13:22.432901
+1,sim,post,start_time,2016-02-24 22:13:22.432972
+1,sim,post,stop_time,2016-02-24 22:13:22.435930
+1,ana,kernel_0,start_time,2016-02-24 22:13:22.436314
+1,ana,kernel_0,wait_time,2016-02-24 22:13:22.587319
+1,ana,kernel_0,res_time,2016-02-24 22:14:29.224713
+1,ana,kernel_0,stop_time,2016-02-24 22:14:29.225146
+1,ana,post,start_time,2016-02-24 22:14:29.225233
+1,ana,post,stop_time,2016-02-24 22:14:29.228205

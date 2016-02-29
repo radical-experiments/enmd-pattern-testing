@@ -1,0 +1,6 @@
+step,probe,timestamp
+
+allocate,start_time,2016-02-24 22:14:43.491078
+allocate,stop_time,2016-02-24 22:14:51.753668
+deallocate,start_time,2016-02-24 22:17:42.589416
+deallocate,stop_time,2016-02-24 22:17:53.263935
