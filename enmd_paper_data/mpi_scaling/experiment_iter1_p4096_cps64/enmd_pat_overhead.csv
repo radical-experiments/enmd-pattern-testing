@@ -1,0 +1,23 @@
+iteration,step,kernel,probe,timestamp
+
+None,pre_loop,None,start_time,2016-03-08 15:35:02.911948
+1,sim,kernel_0,start_time,2016-03-08 15:35:02.913274
+1,sim,kernel_0,wait_time,2016-03-08 15:35:03.166232
+1,sim,kernel_0,res_time,2016-03-08 15:35:30.063203
+1,sim,kernel_0,stop_time,2016-03-08 15:35:30.063653
+1,sim,kernel_1,start_time,2016-03-08 15:35:30.063750
+1,sim,kernel_1,wait_time,2016-03-08 15:35:30.317608
+1,sim,kernel_1,res_time,2016-03-08 15:36:36.428229
+1,sim,kernel_1,stop_time,2016-03-08 15:36:36.428671
+1,sim,post,start_time,2016-03-08 15:36:36.428746
+1,sim,post,stop_time,2016-03-08 15:36:36.434524
+1,ana,kernel_0,start_time,2016-03-08 15:36:36.439411
+1,ana,kernel_0,wait_time,2016-03-08 15:36:36.454690
+1,ana,kernel_0,res_time,2016-03-08 15:37:11.824598
+1,ana,kernel_0,stop_time,2016-03-08 15:37:11.824841
+1,ana,kernel_1,start_time,2016-03-08 15:37:11.824915
+1,ana,kernel_1,wait_time,2016-03-08 15:37:11.838913
+1,ana,kernel_1,res_time,2016-03-08 15:37:34.529131
+1,ana,kernel_1,stop_time,2016-03-08 15:37:34.529353
+1,ana,post,start_time,2016-03-08 15:37:34.529423
+1,ana,post,stop_time,2016-03-08 15:37:34.529651
