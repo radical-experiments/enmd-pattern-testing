@@ -961,17 +961,19 @@ def gen_graph():
         ex_bottom.append(data_times[i])
         md_bottom.append(data_times[i] + exchange_times[i])
 
+    # Ten shades of gray
+    color = plt.cm.binary(np.linspace(0, 1, 10))
 
-    p1 = axarr[0].bar(ind+0.5*width, enmd_overhead_times, width, yerr=enmd_overhead_times_err, color='red', edgecolor = "black")
+    p1 = axarr[0].bar(ind+0.5*width, enmd_overhead_times, width, yerr=enmd_overhead_times_err, color=color[1], edgecolor = "black")
 
-    p2 = axarr[0].bar(ind-0.5*width, enmd_core_times,     width, yerr=enmd_core_times_err, color='green', edgecolor = "black")
+    p2 = axarr[0].bar(ind-0.5*width, enmd_core_times,     width, yerr=enmd_core_times_err, color=color[8], edgecolor = "black")
     
     #p3 = axarr[2].bar(ind-width, data_times, width, yerr=data_times_err, color='brown', edgecolor = "black")
 
     ax2 = axarr[1].twinx()
     #p4 = axarr[1].bar(ind+0.5*width, exchange_times, width, yerr=exchange_times_err, color='yellow', edgecolor = "black")
-    p4 = ax2.bar(ind+0.5*width, exchange_times, width, yerr=exchange_times_err, color='orange', edgecolor = "black")
-    p5 = axarr[1].bar(ind-0.5*width, md_times, width, yerr=md_times_err, color='blue', edgecolor = "black")
+    p4 = ax2.bar(ind+0.5*width, exchange_times, width, yerr=exchange_times_err, color=color[4], edgecolor = "black")
+    p5 = axarr[1].bar(ind-0.5*width, md_times, width, yerr=md_times_err, color=color[6], edgecolor = "black")
     
     #---------------------------------------------------------------------------
 
@@ -1027,7 +1029,7 @@ def gen_graph():
 
     fig = plt.gcf()
     fig.set_size_inches(16, 12.5)
-    fig.savefig('plot-strong-scaling_without_data_without_ov.png',dpi=100)
+    fig.savefig('plot-strong-scaling_bw.png',dpi=100)
 
 
 #-------------------------------------------------------------------------------
