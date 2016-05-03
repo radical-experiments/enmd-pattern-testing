@@ -1,0 +1,6 @@
+#!/home/vivek/repos/enmd-pattern-testing/enmd_paper_data/bw_coam/coam-on-bluewaters/myenv/bin/python
+
+import radical.utils as ru
+
+print ru.version_detail
+
