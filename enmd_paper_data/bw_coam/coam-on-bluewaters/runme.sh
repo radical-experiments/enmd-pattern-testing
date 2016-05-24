@@ -28,11 +28,12 @@ export RADICAL_ENMD_VERBOSE=info
 export RADICAL_PILOT_PROFILE=True
 
 ITERS="1"			# No. of trials for averaging results
-INSTANCES="32"       #Weak scaling
-#INSTANCES="2048"                            #Strong scaling
-CORES="64"
+#INSTANCES="256 512 1024 2048 4096"       #Weak scaling
+INSTANCES="8192"                            #Strong scaling
+#CORES="8224"
+#CORES="1056 2080 4128"
 
-CORES_PER_SIMS="1"		# Cores per simulation
+CORES_PER_SIM="1"		# Cores per simulation
 
 ORIG="`pwd`"
 
@@ -41,13 +42,14 @@ mkdir -p data				# Folder with all the data
 
 for iter in $ITERS
 do
-	for size in $CORES
-	do
+#	for size in $CORES
+#	do
 		for inst in $INSTANCES
 		do
-				nodes=$(( $(( $size - 32 )) / $CORES_PER_SIMS ))
-				if [ $inst -eq $nodes ]; 
-				then
+#				nodes=$(( $(( $size - 32 )) / $CORES_PER_SIMS ))
+#				if [ $inst -eq $nodes ]; 
+#				then
+				size=$(( inst*$CORES_PER_SIM + 32 ))
 				export EXPERIMENT=experiment_iter${iter}_p${size}_i${inst}
 				cd $ORIG/data
 				rm -rf $EXPERIMENT
@@ -61,14 +63,14 @@ do
 
 				# Replace variables in the config files with datapoint values				
 				cat ../../bluewaters.rcfg | sed -e "s/CORES/$size/g" > bluewaters.rcfg					
-				cat ../../cocoamber.wcfg | sed -e "s/INSTANCES/$inst/g" | sed -e "s/CPS/$CORES_PER_SIMS/g" > cocoamber.wcfg			
+				cat ../../cocoamber.wcfg | sed -e "s/INSTANCES/$inst/g" | sed -e "s/CPS/$CORES_PER_SIM/g" > cocoamber.wcfg			
 
 				# Run the script with the specific datapoints
 				# You can comment the following line and run this script to see how the folder structure 
 				# comes out
 				python extasy_amber_coco.py --RPconfig bluewaters.rcfg --Kconfig cocoamber.wcfg
-				fi
+#				fi
 		done
-	done
+#	done
 done
 

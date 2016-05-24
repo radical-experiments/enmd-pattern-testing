@@ -1,0 +1,9 @@
+REMOTE_HOST = 'ncsa.bw'  # Label/Name of the Remote Machine
+UNAME       = 'balasubr'                  # Username on the Remote Machine
+ALLOCATION  = 'gkd'              # Allocation to be charged
+WALLTIME    = 300                          # Walltime to be requested for the pilot
+PILOTSIZE   = 8224                          # Number of cores to be reserved
+WORKDIR     = None                        # Working directory on the remote machine
+QUEUE       = 'normal'                    # Name of the queue in the remote machine
+
+DBURL       = 'mongodb://vivek:extasy@ds023452.mlab.com:23452/extasy_2016'          #MongoDB link to be used for coordination purposes
