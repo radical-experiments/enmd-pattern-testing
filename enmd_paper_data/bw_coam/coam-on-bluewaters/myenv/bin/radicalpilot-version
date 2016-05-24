@@ -1,5 +1,0 @@
-#!/home/vivek/repos/enmd-pattern-testing/enmd_paper_data/bw_coam/coam-on-bluewaters/myenv/bin/python
-
-import radical.pilot
-print  radical.pilot.version_detail
-

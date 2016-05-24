@@ -1,4 +1,4 @@
-uid, iter, step, uid, step, Scheduling, StagingInput, AgentStagingInputPending, AgentStagingInput, AllocatingPending, Allocating, ExecutingPending, Executing, AgentStagingOutputPending, AgentStagingOutput, PendingOutputStaging, StagingOutput, Done
+uid, iter, step, Scheduling, StagingInput, AgentStagingInputPending, AgentStagingInput, AllocatingPending, Allocating, ExecutingPending, Executing, AgentStagingOutputPending, AgentStagingOutput, PendingOutputStaging, StagingOutput, Done
 
 unit.000000, 1, sim, 1457401192.25, 1457401193.88, 1457401193.88, 1457401197.61, 1457401197.61, 1457401197.72, 1457401197.73,1457401197.95, 1457401390.43, 1457401390.44, 1457401390.45, 1457401391.19, 1457401391.22
 unit.000001, 1, sim, 1457401192.25, 1457401195.03, 1457401195.03, 1457401198.38, 1457401198.39, 1457401198.4, 1457401198.41,1457401199.28, 1457401391.16, 1457401391.44, 1457401391.44, 1457401393.25, 1457401393.28
