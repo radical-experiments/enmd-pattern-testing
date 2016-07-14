@@ -1,0 +1,6 @@
+step,probe,timestamp
+
+alloc,stop,2016-07-14 20:07:42.523417
+alloc,start,2016-07-14 20:07:31.944010
+dealloc,stop,2016-07-14 20:10:37.676414
+dealloc,start,2016-07-14 20:10:24.447991
